@@ -5,6 +5,7 @@ services:
     restart: always
     env_file:
       - .env
+      - .env_private
     ports:
       - "5432:5432"
     networks:
@@ -23,6 +24,9 @@ services:
     image: movierizer_api
     container_name: movierizer_api
     restart: always
+    env_files:
+      - .env
+      - .env_private
     ports:
       - "8081:5000"
     networks:
@@ -36,6 +40,8 @@ services:
     image: movierizer_front
     container_name: movierizer_front
     restart: always
+    env_files:
+      - .env
     ports:
       - "8080:3000"
     networks:
