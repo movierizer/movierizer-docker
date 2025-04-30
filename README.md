@@ -8,6 +8,7 @@ You have to make sure to declare some environnement variable for example :
 ```
 POSTGRES_PASSWORD=My_database_password
 POSTGRES_USER=My_database_user
+BEARER_TOKEN_TDMB=your_token_for_the_TMDB_API
 ```
 
 # Launch the app :
