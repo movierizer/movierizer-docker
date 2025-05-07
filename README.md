@@ -1,25 +1,44 @@
 # Movierizer Docker Documentation 
 
-# Introduction :
-You can find on this project a docker compose for the movierizer application. This project is essential for the application because he is the base of all my project. 
+# Introduction 
+This repository contains the Docker Compose configuration for the Movierizer application. It serves as the foundation for the entire project.
 
-# Before the execution :
-You have to make sure to declare some environnement variable for example :
+# Prerequisites 
+Before running the application, you must create a configuration file named :  
+```
+".private.env"
+```
+This file should include the following environment variables :
 ```
 POSTGRES_PASSWORD=My_database_password
 POSTGRES_USER=My_database_user
 BEARER_TOKEN_TDMB=your_token_for_the_TMDB_API
 ```
 
-# Launch the app :
-You can easily launch the aplication with this command : 
+# How to Launch the Application 
+To start the application, simply run: 
 ```
 docker compose up -d
 ```
-and you can find all the command option [here](https://docs.docker.com/reference/cli/docker/compose/run/)
+You can find all available `docker compose` options in the [official documentation](https://docs.docker.com/reference/cli/docker/compose/run/).
 
-# Stop the application :
-You can stop the application with this command : 
+# Accessing the Application 
+
+Once running, you can access the different components of the app at the following addresses :
+- Frontend : [http://localhost:8080](http://localhost:8080)
+- Backend(API) : [http://localhost:8081/movies](http://localhost:8081/movies)
+- Database : [http://localhost:8082](http://localhost:8082)
+
+# Related Repositories
+
+- [movierizer Api](https://gitlab.com/movierizer/movierizer-api)
+- [movierizer Front](https://gitlab.com/movierizer/movierizer-front)
+- [movierizer Docker](https://gitlab.com/movierizer/movierizer-docker)
+- [movierizer Database](https://gitlab.com/movierizer/movierizer-database)
+
+
+# Stopping the application :
+To stop the application, run :
 ```
 docker compose down
 ```
