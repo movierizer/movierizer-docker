@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:16
+    image: s0nren/movierizer-database:0.0.1
     container_name: movierizer_db
     restart: always
     env_file:
@@ -21,7 +21,7 @@ services:
   
   back:
     build: '../../movierizer-api'
-    image: movierizer_api
+    image: s0nren/movierizer-api:0.0.1
     container_name: movierizer_api
     restart: always
     env_file:
@@ -37,7 +37,7 @@ services:
       
   front:
     build: '../../movierizer-front'
-    image: movierizer_front
+    image: s0nren/movierizer-front:0.0.1
     container_name: movierizer_front
     restart: always
     env_file:
