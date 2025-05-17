@@ -10,6 +10,8 @@ services:
       - "5432:5432"
     networks:
       - backend
+    volumes:
+      - pgdata:/var/lib/postgresql/data
 
   adminer:
     image: adminer
@@ -61,3 +63,6 @@ networks:
   frontend:
     name: frontend
     driver: bridge
+
+volumes:
+  pgdata:
