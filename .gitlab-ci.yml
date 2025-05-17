@@ -20,7 +20,7 @@ deploy:
       POSTGRES_USER=$POSTGRES_USER
       BEARER_TOKEN_TDMB=$TMDB_TOKEN
       EOF
-    - ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no movierizer@$PROD_IP_VM "mkdir -p /home/movierizer/movierizer"
+    - ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no movierizer@141.94.104.171 "mkdir -p /home/movierizer/movierizer"
     - rsync -avz --delete ./ movierizer@$PROD_IP_VM:/home/movierizer/movierizer
     - ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no movierizer@$PROD_IP_VM "cd /home/movierizer/movierizer/src && docker compose up -d"    
     
