@@ -19,5 +19,5 @@ deploy:
       BEARER_TOKEN_TDMB=$TMDB_TOKEN
       EOF
     - rsync -avz --delete ./ movierizer@217.182.104.218:/home/movierizer/movierizer
-    - ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no movierizer@217.182.104.218 "cd /home/movierizer/movierizer/src && docker-compose up -d"    
+    - ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no movierizer@217.182.104.218 "cd /home/movierizer/movierizer/src && docker compose up -d"    
     
