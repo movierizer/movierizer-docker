@@ -8,7 +8,7 @@ before_script:
   - PRIVATE_KEY_DECODED="$(cat $DEPLOY_PRIVATE_KEY | base64 -d)"
   - echo "$PRIVATE_KEY_DECODED" > ~/.ssh/id_rsa
   - chmod 600 ~/.ssh/id_rsa
-  - ssh-keyscan -H 217.182.104.218 >> ~/.ssh/known_hosts
+  - ssh-keyscan -H $PROD_IP_VM >> ~/.ssh/known_hosts
 
 deploy:
   stage: deploy
@@ -20,13 +20,14 @@ deploy:
       POSTGRES_USER=$POSTGRES_USER
       BEARER_TOKEN_TDMB=$TMDB_TOKEN
       EOF
-    - rsync -avz --delete ./ movierizer@217.182.104.218:/home/movierizer/movierizer
-    - ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no movierizer@217.182.104.218 "cd /home/movierizer/movierizer/src && docker compose up -d"    
+    - ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no movierizer@$PROD_IP_VM "mkdir -p /home/movierizer/movierizer"
+    - rsync -avz --delete ./ movierizer@$PROD_IP_VM:/home/movierizer/movierizer
+    - ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no movierizer@$PROD_IP_VM "cd /home/movierizer/movierizer/src && docker compose up -d"    
     
 undeploy:
   stage: undeploy
   image: debian:bullseye
   when: manual
   script:
-    - ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no movierizer@217.182.104.218 "cd /home/movierizer/movierizer/src && docker compose down"
-    - ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no movierizer@217.182.104.218 "rm -rf /home/movierizer/movierizer && mkdir /home/movierizer/movierizer"
+    - ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no movierizer@$PROD_IP_VM "cd /home/movierizer/movierizer/src && docker compose down"
+    - ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no movierizer@$PROD_IP_VM "rm -rf /home/movierizer/movierizer && mkdir /home/movierizer/movierizer"
