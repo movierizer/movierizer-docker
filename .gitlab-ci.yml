@@ -1,6 +1,6 @@
 stages:
   - deploy
-#  - undeploy
+  - undeploy
 
 before_script:
   - apt-get update && apt-get install -y rsync openssh-client
@@ -10,7 +10,7 @@ before_script:
   - chmod 600 ~/.ssh/id_rsa
   - ssh-keyscan -H $SERVER_IP >> ~/.ssh/known_hosts
 
-# Action de déploiement standard
+# Template de l'action de déploiement
 .deploy_template: &deploy_template
   stage: deploy
   image: debian:bullseye
@@ -26,13 +26,24 @@ before_script:
     - ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no movierizer@$SERVER_IP "cd /home/movierizer/movierizer/src && docker compose up -d"    
 
 
+# Template de l'action de suppression du déploiement
+.undeploy_template: &undeploy_template
+  stage: undeploy
+  image: debian:bullseye
+  when: manual
+  script:
+    - ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no movierizer@$SERVER_IP "cd /home/movierizer/movierizer/src && docker compose down"
+    - ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no movierizer@$SERVER_IP "rm -rf /home/movierizer/movierizer && mkdir /home/movierizer/movierizer"
+
+
 deploy_dev:
   <<: *deploy_template
   stage: deploy
   environment:
     name: dev
   only:
-    - feat/deploy_aws
+    - /^feat/.*$/
+    - /^fix/.*$/
 
 deploy_prod:
   <<: *deploy_template
@@ -43,24 +54,20 @@ deploy_prod:
     - main
     - develop
 
-#deploy:
-#  stage: deploy
-#  image: debian:bullseye
-#  script:
-#    - |
-#      cat <<EOF > ./src/.private.env
-#      POSTGRES_PASSWORD=$POSTGRES_PASSWORD
-#      POSTGRES_USER=$POSTGRES_USER
-#      BEARER_TOKEN_TDMB=$TMDB_TOKEN
-#      EOF
-#    - ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no movierizer@$PROD_IP_VM "mkdir -p /home/movierizer/movierizer"
-#    - rsync -avz --delete ./ movierizer@$PROD_IP_VM:/home/movierizer/movierizer
-#    - ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no movierizer@$PROD_IP_VM "cd /home/movierizer/movierizer/src && docker compose up -d"    
-    
-#undeploy:
-#  stage: undeploy
-#  image: debian:bullseye
-#  when: manual
-#  script:
-#    - ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no movierizer@$PROD_IP_VM "cd /home/movierizer/movierizer/src && docker compose down"
-#    - ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no movierizer@$PROD_IP_VM "rm -rf /home/movierizer/movierizer && mkdir /home/movierizer/movierizer"
+undeploy_dev:
+  <<: *undeploy_template
+  stage: undeploy
+  environment:
+    name: dev
+  only:
+    - /^feat/.*$/
+    - /^fix/.*$/
+
+undeploy_prod:
+  <<: *undeploy_template
+  stage: undeploy
+  environment:
+    name: prod
+  only:
+    - main
+    - develop
