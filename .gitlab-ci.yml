@@ -33,8 +33,7 @@ before_script:
   when: manual
   script:
     - ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no movierizer@$SERVER_IP "cd /home/movierizer/movierizer/src && docker compose down"
-    - ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no movierizer@$SERVER_IP "rm -rf /home/movierizer/movierizer && mkdir /home/movierizer/movierizer"
-
+    - ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no movierizer@$SERVER_IP "rm -rf /home/movierizer/movierizer"
 
 deploy_dev:
   <<: *deploy_template
@@ -42,8 +41,8 @@ deploy_dev:
   environment:
     name: dev
   only:
-    - main
-    - develop
+    - /^feat/.*$/
+    - /^fix/.*$/
 
 deploy_prod:
   <<: *deploy_template
@@ -51,8 +50,8 @@ deploy_prod:
   environment:
     name: prod
   only:
-    - /^feat/.*$/
-    - /^fix/.*$/
+    - main
+    - develop
 
 undeploy_dev:
   <<: *undeploy_template
@@ -60,8 +59,8 @@ undeploy_dev:
   environment:
     name: dev
   only:
-    - main
-    - develop
+    - /^feat/.*$/
+    - /^fix/.*$/
 
 undeploy_prod:
   <<: *undeploy_template
@@ -69,5 +68,5 @@ undeploy_prod:
   environment:
     name: prod
   only:
-    - /^feat/.*$/
-    - /^fix/.*$/
+    - main
+    - develop
