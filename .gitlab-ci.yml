@@ -28,13 +28,15 @@ before_script:
 
 deploy_dev:
   <<: *deploy_template
+  stage: deploy
   environment:
     name: dev
   only:
-    - feat/*
+    - feat/deploy_aws
 
 deploy_prod:
   <<: *deploy_template
+  stage: deploy
   environment:
     name: prod
   only:
