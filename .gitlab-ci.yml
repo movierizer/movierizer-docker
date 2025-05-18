@@ -42,8 +42,8 @@ deploy_dev:
   environment:
     name: dev
   only:
-    - /^feat/.*$/
-    - /^fix/.*$/
+    - main
+    - develop
 
 deploy_prod:
   <<: *deploy_template
@@ -51,8 +51,8 @@ deploy_prod:
   environment:
     name: prod
   only:
-    - main
-    - develop
+    - /^feat/.*$/
+    - /^fix/.*$/
 
 undeploy_dev:
   <<: *undeploy_template
@@ -60,8 +60,8 @@ undeploy_dev:
   environment:
     name: dev
   only:
-    - /^feat/.*$/
-    - /^fix/.*$/
+    - main
+    - develop
 
 undeploy_prod:
   <<: *undeploy_template
@@ -69,5 +69,5 @@ undeploy_prod:
   environment:
     name: prod
   only:
-    - main
-    - develop
+    - /^feat/.*$/
+    - /^fix/.*$/
