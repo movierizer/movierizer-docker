@@ -16,6 +16,7 @@ services:
 
   back:
     image: s0nren/movierizer-api:${API_VERSION}
+    #image: lynchmaniac22/movierizer-api:${API_VERSION}
     pull_policy: always
     container_name: movierizer_api
     restart: always
