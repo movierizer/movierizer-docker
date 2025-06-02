@@ -25,7 +25,7 @@ services:
   
   back:
     build: 
-      context: '../../movierizer-api'
+      context: '../../movierizer-api/docker'
       dockerfile: 'Dockerfile.dev'
     image: movierizer_api
     container_name: movierizer_api_dev
@@ -43,7 +43,7 @@ services:
       
   front:
     build: 
-      context: '../../movierizer-front'
+      context: '../../movierizer-front/docker'
       dockerfile: 'Dockerfile.dev'
     image: movierizer_front
     container_name: movierizer_front_dev
