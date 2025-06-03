@@ -24,7 +24,7 @@ before_script:
       EOF
     - ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no movierizer@$SERVER_IP "mkdir -p /home/movierizer/movierizer"
     - rsync -avz --delete ./ movierizer@$SERVER_IP:/home/movierizer/movierizer
-    - ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no movierizer@$SERVER_IP "cd /home/movierizer/movierizer/src && docker compose up -d"    
+    - ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no movierizer@$SERVER_IP "cd /home/movierizer/movierizer/$ENV && docker compose up -d"    
 
 
 # Template de l'action de suppression du déploiement
@@ -33,7 +33,7 @@ before_script:
   image: debian:bullseye
   when: manual
   script:
-    - ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no movierizer@$SERVER_IP "cd /home/movierizer/movierizer/src && docker compose down"
+    - ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no movierizer@$SERVER_IP "cd /home/movierizer/movierizer/$ENV && docker compose down"
     - ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no movierizer@$SERVER_IP "rm -rf /home/movierizer/movierizer"
 
 .deploy_dev:
