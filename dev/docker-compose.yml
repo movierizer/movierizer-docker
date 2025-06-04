@@ -43,7 +43,7 @@ services:
   front:
     build: 
       context: '../../movierizer-front'
-      dockerfile: 'Dockerfile.vince'
+      dockerfile: 'Dockerfile'
     image: movierizer_front
     container_name: movierizer_front
     restart: always
